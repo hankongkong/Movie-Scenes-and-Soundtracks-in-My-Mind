@@ -185,6 +185,33 @@ function initGenreDisplay(selectedGenre) {
     });
 
     movieGrid.onwheel = (e) => {
+        // 🌟 폰 터치 스와이프 로직 추가
+    let touchStartX = 0;
+    
+    movieGrid.addEventListener("touchstart", (e) => {
+        touchStartX = e.changedTouches[0].screenX;
+    }, { passive: true });
+
+    movieGrid.addEventListener("touchend", (e) => {
+        let touchEndX = e.changedTouches[0].screenX;
+        let diff = touchStartX - touchEndX;
+
+        // 🚨 터치 거리가 어느 정도 될 때만 회전 (너무 예민하면 오작동 방지)
+        if (Math.abs(diff) > 50) { 
+            stopAutoPlay();
+            
+            // 휠 방향과 맞춰서 오른쪽으로 밀면 다음 영화, 왼쪽으로 밀면 이전 영화
+            currAngle += (diff > 0) ? -rotateAngle : rotateAngle;
+            track.style.transform = `rotateY(${currAngle}deg)`;
+            updateActiveCard();
+
+            // 다시 자동 재생 타이머 초기화
+            clearTimeout(window.wheelTimeout);
+            window.wheelTimeout = setTimeout(() => {
+                if (currentPlayingIndex === null) startAutoPlay();
+            }, 2000);
+        }
+    }, { passive: true });
         e.preventDefault();
         
         if (isWheeling) return; 

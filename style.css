@@ -316,13 +316,21 @@ header h1 {
     position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); border: 0;
 }
 
-/* 폰 화면 대응 (지우면 안 되는 부분!) */
-@media (max-width: 768px) {
-    .input-group { flex-direction: column; }
-    .input-group button { padding: 15px; }
+/* 초소형 폰 (화면 너비 480px 이하) */
+@media (max-width: 480px) {
+    .movie-grid-view { grid-template-columns: 1fr; }
     
-    /* 폰에서는 점수 버튼 간격도 살짝 줄여줌 */
-    .score-rating { gap: 8px; }
-    .score-rating label { padding: 8px 16px; font-size: 0.9rem; }
+    /* 3D 회전 카드 극소형으로 변경 */
+    .grid-container { height: 380px; }
+    .carousel-track { width: 200px; height: 280px; }
+    .movie-card { width: 200px; height: 280px; }
+    .movie-card img { height: 130px; }
+    .movie-info { height: 150px; padding: 10px; }
+    .movie-title { font-size: 1.1rem; }
+    
+    /* 🚨 여기! display: none을 지우고, 폰트 크기를 살짝 줄여서 다시 보여주자 */
+    .movie-desc { font-size: 0.7rem; color: #ccc; display: block; } 
 }
+
+
 }
