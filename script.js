@@ -224,6 +224,11 @@ movieGrid.addEventListener('touchmove', (e) => {
 }, { passive: false }); // e.preventDefault()를 쓰려면 passive: false가 필수임
 
 movieGrid.addEventListener('touchend', (e) => {
+    // 🚨 핵심 수정: 2칸씩 점프하는 버그 차단 (0.5초 쿨타임 적용)
+    if (window.isSwiping) return;
+    window.isSwiping = true;
+    setTimeout(() => { window.isSwiping = false; }, 500);
+
     let endX = e.changedTouches[0].clientX;
     let diff = startX - endX;
 
@@ -240,7 +245,6 @@ movieGrid.addEventListener('touchend', (e) => {
         if (currentPlayingIndex === null) startAutoPlay();
     }, 2000);
 }, { passive: true });
-
     initialStartTimer = setTimeout(() => {
         startAutoPlay();
     }, 2000);
