@@ -1,0 +1,328 @@
+body {
+    font-family: 'Pretendard', 'Apple SD Gothic Neo', sans-serif;
+    background-color: #050505;
+    color: white;
+    margin: 0;
+    /* 🚨 전체 스크롤을 막았던 설정을 풀어서 Grid 화면에서 밑으로 내릴 수 있게 수정 */
+    overflow-x: hidden; 
+}
+
+/* 🌟 L4. [Sticky] 헤더 고정 (스크롤해도 메뉴가 위에 착 붙음) */
+header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    text-align: center;
+    background-color: rgba(5, 5, 5, 0.85); /* 약간 투명하게 */
+    backdrop-filter: blur(10px); /* 뒤에 비치는 배경을 블러 처리해서 고급스럽게 */
+    padding: 15px 0;
+    border-bottom: 1px solid #222;
+}
+
+header h1 {
+    font-size: 1.8rem;
+    color: #fff;
+    margin: 0 0 15px 0;
+    font-weight: 800;
+}
+
+.genre-container {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    flex-wrap: wrap; /* 폰에서 버튼이 많으면 다음 줄로 넘어가게 */
+}
+
+.genre-btn {
+    background-color: #222;
+    color: #aaa;
+    border: 2px solid #333;
+    padding: 10px 24px;
+    font-size: 0.95rem;
+    font-weight: 700;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.genre-btn:hover {
+    color: #fff;
+    border-color: #888;
+    background-color: #2a2a2a;
+}
+
+.genre-btn.active {
+    background-color: #e50914; 
+    color: #fff;
+    border-color: #e50914;
+    box-shadow: 0 0 15px rgba(229, 9, 20, 0.4);
+}
+
+/* 🎞️ 3D 가상 영화관 무대 */
+.grid-container {
+    position: relative;
+    width: 100vw;
+    background-color: #111;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    transition: background 0.8s ease;
+    z-index: 1;
+    perspective: 2000px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transform: translateZ(0);
+}
+
+/* 🃏 중앙 회전축 */
+.carousel-track {
+    position: relative;
+    transform-style: preserve-3d;
+    transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.movie-card {
+    position: absolute;
+    left: 0;
+    top: 0;
+    background-color: #1a1a1a;
+    border-radius: 20px;
+    overflow: hidden;
+    cursor: pointer;
+    text-align: center;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    transform-style: preserve-3d;
+    transition: filter 0.5s, border-color 0.3s, box-shadow 0.3s;
+    filter: brightness(0.2);
+}
+
+.movie-card.active-center {
+    filter: brightness(1);
+    box-shadow: 0 30px 70px rgba(0,0,0,0.9);
+    border: 2px solid #555;
+}
+
+.movie-card.active-center:hover {
+    filter: brightness(1.05);
+    border-color: #e50914;
+    box-shadow: 0 30px 80px rgba(229, 9, 20, 0.3);
+}
+
+.movie-card img {
+    width: 100%;
+    object-fit: contain;
+    background-color: #000;
+}
+
+.movie-info {
+    box-sizing: border-box;
+    background: #1a1a1a;
+}
+.movie-title { margin: 0 0 6px 0; font-weight: 800; color: #fff; }
+.movie-desc { color: #ccc; line-height: 1.4; margin-bottom: 6px; }
+.click-notice { font-size: 0.75rem; color: #e50914; font-weight: bold; }
+
+/* ====================================================
+   🌟 L2. [CSS Grid] 2차원 배치 ("전체 영화" 탭 전용) 
+==================================================== */
+.movie-grid-view {
+    display: grid;
+    /* 기본 데스크톱은 4열 배치 */
+    grid-template-columns: repeat(4, 1fr);
+    gap: 25px;
+    padding: 40px 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.grid-item {
+    background: #1a1a1a;
+    border-radius: 10px;
+    overflow: hidden;
+    text-align: center;
+    padding-bottom: 15px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+    transition: transform 0.3s ease;
+}
+
+.grid-item:hover {
+    transform: translateY(-10px);
+    border-bottom: 3px solid #e50914;
+}
+
+.grid-item img {
+    width: 100%;
+    height: 250px;
+    object-fit: contain;
+    background: #000;
+}
+
+.grid-item h3 { margin: 15px 0 5px; font-size: 1.1rem; color: #fff; }
+.grid-item p { margin: 0; font-size: 0.8rem; color: #e50914; font-weight: bold; }
+
+
+/* ====================================================
+   🌟 L3. [반응형] 기기 화면 크기에 맞춘 변형 (@media) 
+==================================================== */
+
+/* 기본 데스크톱 사이즈 세팅 */
+.grid-container { height: 560px; }
+.carousel-track { width: 380px; height: 420px; }
+.movie-card { width: 380px; height: 420px; }
+.movie-card img { height: 250px; }
+.movie-info { height: 170px; padding: 15px 20px; }
+.movie-title { font-size: 1.4rem; }
+.movie-desc { font-size: 0.85rem; }
+
+/* 태블릿 사이즈 (화면 너비 1024px 이하) */
+@media (max-width: 1024px) {
+    .movie-grid-view { grid-template-columns: repeat(3, 1fr); } /* 3열로 변경 */
+}
+
+/* 폰/태블릿 작은 화면 (화면 너비 768px 이하) */
+@media (max-width: 768px) {
+    .movie-grid-view { grid-template-columns: repeat(2, 1fr); } /* 2열로 변경 */
+    
+    /* 3D 회전 카드들도 모바일에 맞게 축소! */
+    .grid-container { height: 450px; }
+    .carousel-track { width: 260px; height: 350px; }
+    .movie-card { width: 260px; height: 350px; }
+    .movie-card img { height: 180px; }
+    .movie-info { height: 170px; padding: 10px; }
+    .movie-title { font-size: 1.2rem; }
+    .movie-desc { font-size: 0.8rem; }
+}
+
+/* 초소형 폰 (화면 너비 480px 이하) */
+@media (max-width: 480px) {
+    .movie-grid-view { grid-template-columns: 1fr; } /* 1열로 변경 */
+    
+    /* 3D 회전 카드 극소형으로 변경 */
+    .grid-container { height: 380px; }
+    .carousel-track { width: 200px; height: 280px; }
+    .movie-card { width: 200px; height: 280px; }
+    .movie-card img { height: 130px; }
+    .movie-info { height: 150px; }
+    .movie-title { font-size: 1.1rem; }
+    .movie-desc { font-size: 0.75rem; display: none; } /* 공간 부족 시 설명 숨김 */
+    /* ====================================================
+   /* ====================================================
+   🌟 U7. [Form] 리뷰 폼 섹션 스타일 (최종본)
+==================================================== */
+.review-section {
+    width: 100vw;
+    box-sizing: border-box;
+    background-color: #0f0f0f;
+    padding: 60px 20px;
+    border-top: 2px solid #222;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.review-container {
+    width: 100%;
+    max-width: 600px;
+    text-align: center;
+    background: #1a1a1a;
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+}
+
+.review-container h2 {
+    font-size: 1.5rem;
+    color: #fff;
+    margin-top: 0;
+    margin-bottom: 20px;
+}
+
+/* 🚨 별점 대신 둥글고 깔끔한 점수 버튼 스타일 */
+.score-rating {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin-bottom: 25px;
+}
+
+.score-rating input { display: none; }
+
+.score-rating label {
+    background-color: #222;
+    color: #aaa;
+    border: 2px solid #333;
+    padding: 10px 22px;
+    font-size: 1rem;
+    font-weight: bold;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.score-rating label:hover {
+    color: #fff;
+    border-color: #888;
+    background-color: #2a2a2a;
+}
+
+.score-rating input:checked + label {
+    background-color: #e50914;
+    color: #fff;
+    border-color: #e50914;
+    box-shadow: 0 0 15px rgba(229, 9, 20, 0.4);
+}
+
+/* 감상평 입력 폼 스타일 */
+.input-group {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+}
+
+.input-group input {
+    flex: 1;
+    padding: 15px;
+    border: 2px solid #333;
+    background-color: #111;
+    color: #fff;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+}
+
+.input-group input:focus {
+    outline: none;
+    border-color: #e50914;
+}
+
+.input-group button {
+    padding: 0 25px;
+    background-color: #e50914;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.input-group button:hover { background-color: #b80710; }
+
+.sr-only {
+    position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); border: 0;
+}
+
+/* 폰 화면 대응 (지우면 안 되는 부분!) */
+@media (max-width: 768px) {
+    .input-group { flex-direction: column; }
+    .input-group button { padding: 15px; }
+    
+    /* 폰에서는 점수 버튼 간격도 살짝 줄여줌 */
+    .score-rating { gap: 8px; }
+    .score-rating label { padding: 8px 16px; font-size: 0.9rem; }
+}
+}

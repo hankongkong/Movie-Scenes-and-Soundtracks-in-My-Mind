@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>나만의 영화 가이드</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>🎬 내 기억 속 장면과 사운드트랙</h1>
+    </header>
+    
+    <main>
+        <section id="movie-grid" class="grid-container"></section>
+        <section class="review-section">
+            <div class="review-container">
+                <h2>제 기억 속 장면과 사운드트랙은 어떠셨나요?</h2>
+                <form id="review-form">
+                    
+                    <!-- 별점 대신 깔끔한 점수 버튼 영역 -->
+                    <div class="score-rating">
+                        <input type="radio" id="score1" name="rating" value="1">
+                        <label for="score1">1점</label>
+                        <input type="radio" id="score2" name="rating" value="2">
+                        <label for="score2">2점</label>
+                        <input type="radio" id="score3" name="rating" value="3" checked>
+                        <label for="score3">3점</label>
+                        <input type="radio" id="score4" name="rating" value="4">
+                        <label for="score4">4점</label>
+                        <input type="radio" id="score5" name="rating" value="5">
+                        <label for="score5">5점</label>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="user-review" class="sr-only">감상평</label>
+                        <input type="text" id="user-review" placeholder="감상비는 감상평 한 줄 이상😆" required>
+                        <button type="submit">남기기</button>
+                    </div>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
+

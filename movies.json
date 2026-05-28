@@ -1,0 +1,28 @@
+[
+    { "title": "테넷", "genre": "SF_TIME", "poster": "./images/테넷_포스터.jpg", "quoteImg": "./images/테넷_명대사.jpg", "youtube": "vQxS3wD_RNI", "comment": "볼수록 새로운 해석과 궁금증이 생겨 다시 찾게 되는 영화" },
+    { "title": "소스코드", "genre": "SF_TIME", "poster": "./images/소스코드_포스터.jpg", "quoteImg": "./images/소스코드_명대사.jpeg", "youtube": "DtoKOQHfdOE", "comment": "주어진 시간은 단 8분, 과거를 바꾸고 미래를 구하라" },
+    { "title": "어바웃타임", "genre": "SF_TIME", "poster": "./images/어바웃타임_포스터.jpg", "quoteImg": "./images/어바웃타임_명대사.jpg", "youtube": "tFFic1iYM-c", "startTime": 15, "comment": "오늘 하루를 다시 살 수 있다면, 당신은 어떤 선택을 하겠습니까?" },
+    { "title": "프로젝트헤일메리", "genre": "SF_TIME", "poster": "./images/프로젝트헤일메리_포스터.jpg", "quoteImg": "./images/프로젝트헤일메리_명대사.jpeg", "youtube": "p-UnK3wC7G4", "startTime": 16, "comment": "인류를 구하기 위해 우주 저편으로 떠난 외로운 과학자의 여정" },
+    { "title": "매트릭스", "genre": "SF_TIME", "poster": "./images/매트릭스_포스터.jpg", "quoteImg": "./images/매트릭스_명대사.jpg", "youtube": "pFS4zYWxzNA", "startTime": 25, "comment": "빨간 약과 파란 약, 당신이 믿고 있는 현실은 진짜인가" },
+    { "title": "인터스텔라", "genre": "SF_TIME", "poster": "./images/인터스텔라_포스터.jpg", "quoteImg": "./images/인터스텔라_명대사.jpeg", "youtube": "UDVtMYqUAyw", "startTime": 22, "comment": "우린 답을 찾을 것이다, 늘 그랬듯이" },
+    
+    { "title": "인셉션", "genre": "THRILLER", "poster": "./images/인셉션_포스터.jpeg", "quoteImg": "./images/인셉션_명대사.jpeg", "youtube": "RnINtwbKUaw", "comment": "꿈속의 꿈, 기억을 훔치는 거대한 설계와 압도적인 몰입감" },
+    { "title": "캐리온", "genre": "THRILLER", "poster": "./images/캐리온_포스터.jpeg", "quoteImg": "./images/캐리온_명대사.jpeg", "youtube": "76WFkKp8Tjs", "startTime": 54, "comment": "공항 검색대에서 펼쳐지는 숨 막히는 실시간 스릴러" },
+    { "title": "살인의추억", "genre": "THRILLER", "poster": "./images/살인의추억_포스터.jpeg", "quoteImg": "./images/살인의추억_명대사.jpeg", "youtube": "9HrQkF1KQwk", "comment": "미치도록 잡고 싶었다, 비 오는 날 불 꺼진 방의 진실" },
+    { "title": "숨바꼭질", "genre": "THRILLER", "poster": "./images/숨바꼭질_포스터.jpeg", "quoteImg": "./images/숨바꼭질_명대사.jpeg", "youtube": "cb3F_ZV6eZk", "startTime": 26, "comment": "우리 집에 누군가 숨어 살고 있다, 초인종 옆 의문의 기호" },
+    { "title": "콰이어트플레이스", "genre": "THRILLER", "poster": "./images/콰이어트플레이스_포스터.jpeg", "quoteImg": "./images/콰이어트플레이스_명대사.jpeg", "youtube": "F5EZ_orX51I", "startTime": 17, "comment": "소리 내면 죽는다, 숨소리조차 거대한 무기가 되는 세상" },
+    
+    { "title": "비긴어게인", "genre": "ROMANCE", "poster": "./images/비긴어게인_포스터.jpeg", "quoteImg": "./images/비긴어게인_명대사.jpeg", "youtube": "8XDI2kk6qQU", "startTime": 134, "comment": "상처받은 영혼들이 음악을 통해 다시 시작하는 치유의 멜로디" },
+    { "title": "소년시절의너", "genre": "ROMANCE", "poster": "./images/소년시절의너_포스터.jpeg", "quoteImg": "./images/소년시절의너_명대사.jpeg", "youtube": "dh4brJmqtUI", "startTime": 157, "comment": "세상에 기댈 곳 없던 두 소년 소녀의 시리도록 아픈 로맨스" },
+    { "title": "라라랜드", "genre": "ROMANCE", "poster": "./images/라라랜드_포스터.jpeg", "quoteImg": "./images/라라랜드_명대사.jpeg", "youtube": "XFgsOBnf4Kg", "startTime": 38, "comment": "황홀한 사랑, 순수한 열정, 우리 모두의 빛나는 꿈의 무대" },
+    { "title": "말할수없는비밀", "genre": "ROMANCE", "poster": "./images/말할수없는비밀_포스터.jpeg", "quoteImg": "./images/말할수없는비밀_명대사.jpeg", "youtube": "jnzZjWyAHTk", "comment": "피아노 선율을 타고 시공간을 넘어온 마법 같은 첫사랑" },
+    { "title": "위플래시", "genre": "ROMANCE", "poster": "./images/위플래시_포스터.jpeg", "quoteImg": "./images/위플래시_명대사.jpeg", "youtube": "-jAtHf9RA4w", "comment": "천재가 되기 위한 광기 어린 드럼 비트와 폭발적인 전율" },
+    { "title": "보헤미안랩소디", "genre": "ROMANCE", "poster": "./images/보헤미안랩소디_포스터.jpeg", "quoteImg": "./images/보헤미안랩소디_명대사.jpeg", "youtube": "eA8CVQ-kfJA", "startTime": 62, "comment": "전설적인 밴드 퀸, 세상을 뒤흔든 공감과 전율의 라이브 에이드" },
+    
+    { "title": "캐치미이프유캔", "genre": "DRAMA", "poster": "./images/캐치미이프유캔_포스터.jpg", "quoteImg": "./images/캐치미이프유캔_명대사.jpg", "youtube": "9_gSFMQdGsc", "startTime": 7, "comment": "정체를 숨긴 천재 사기꾼과 그를 쫓는 FBI의 유쾌한 추격전" },
+    { "title": "죽은시인의사회", "genre": "DRAMA", "poster": "./images/죽은시인의사회_포스터.jpg", "quoteImg": "./images/죽은시인의사회_명대사.jpg", "youtube": "ha_E7u6dSHc", "startTime": 139, "comment": "카르페 디엠, 우리 삶의 진정한 의미를 깨워주는 감동 명작" },
+    { "title": "굿윌헌팅", "genre": "DRAMA", "poster": "./images/굿윌헌팅_포스터.jpg", "quoteImg": "./images/굿윌헌팅_명대사.jpg", "youtube": "gRUyC9veWtw", "startTime": 20, "comment": "네 잘못이 아니야, 닫혀있던 천재 소년의 마음을 여는 위로" },
+    { "title": "트루먼쇼", "genre": "DRAMA", "poster": "./images/트루먼쇼_포스터.jpg", "quoteImg": "./images/트루먼쇼_명대사.jpg", "youtube": "rod163ksVdM", "comment": "내 모든 삶이 전 세계에 생중계된다면, 가짜 세상을 깨부수는 용기" },
+    { "title": "이상한나라의수학자", "genre": "DRAMA", "poster": "./images/이상한나라의수학자_포스터.jpg", "quoteImg": "./images/이상한나라의수학자_명대사.jpg", "youtube": "cfhrDtVr4Y0", "startTime": 60, "comment": "정답보다 중요한 것은 질문을 이해하고 증명해 나가는 과정" },
+    { "title": "소방관", "genre": "DRAMA", "poster": "./images/소방관_포스터.jpg", "quoteImg": "./images/소방관_명대사.jpg", "youtube": "yI0BNkRQWYE", "startTime": 22, "comment": "가장 뜨거운 화염 속으로, 타인의 생명을 위해 사선으로 뛰어드는 영웅들" }
+]
