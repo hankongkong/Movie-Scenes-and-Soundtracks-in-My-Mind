@@ -206,25 +206,28 @@ function initGenreDisplay(selectedGenre) {
 let startX = 0;
 let startY = 0;
 
+// 🚨 중복 방지 1: 유튜브 갔다 올 때 화면 크기 변하면서 터치 이벤트 겹치는 현상 싹 날리기!
+if (window.touchController) window.touchController.abort();
+window.touchController = new AbortController();
+const sig = window.touchController.signal;
+
+let startX = 0;
+let startY = 0;
+
 movieGrid.addEventListener('touchstart', (e) => {
     startX = e.touches[0].clientX;
     startY = e.touches[0].clientY;
     stopAutoPlay();
-}, { passive: true });
+}, { passive: true, signal: sig }); // 👈 signal이 붙으면서 이전 이벤트들을 알아서 청소해 줌
 
-// 🚨 핵심: 가로로 밀 때는 브라우저가 화면을 맘대로 넘기지 못하게 차단
 movieGrid.addEventListener('touchmove', (e) => {
     let dx = Math.abs(e.touches[0].clientX - startX);
     let dy = Math.abs(e.touches[0].clientY - startY);
-    
-    // 세로 스크롤보다 가로로 미는 힘이 더 크면 브라우저 기본 동작 막기
-    if (dx > dy) { 
-        e.preventDefault(); 
-    }
-}, { passive: false }); // e.preventDefault()를 쓰려면 passive: false가 필수임
+    if (dx > dy) { e.preventDefault(); }
+}, { passive: false, signal: sig });
 
 movieGrid.addEventListener('touchend', (e) => {
-    // 🚨 핵심 수정: 2칸씩 점프하는 버그 차단 (0.5초 쿨타임 적용)
+    // 중복 방지 2: 짧은 시간에 여러 번 밀리는 거 차단
     if (window.isSwiping) return;
     window.isSwiping = true;
     setTimeout(() => { window.isSwiping = false; }, 500);
@@ -232,19 +235,17 @@ movieGrid.addEventListener('touchend', (e) => {
     let endX = e.changedTouches[0].clientX;
     let diff = startX - endX;
 
-    // 40px 이상 확실하게 밀었을 때만 카드 회전
     if (Math.abs(diff) > 40) {
         currAngle += (diff > 0) ? -rotateAngle : rotateAngle;
         track.style.transform = `rotateY(${currAngle}deg)`;
         updateActiveCard();
     }
 
-    // 손 떼고 2초 뒤 자동 재생 복구
     clearTimeout(window.swipeTimeout);
     window.swipeTimeout = setTimeout(() => {
         if (currentPlayingIndex === null) startAutoPlay();
     }, 2000);
-}, { passive: true });
+}, { passive: true, signal: sig });
     initialStartTimer = setTimeout(() => {
         startAutoPlay();
     }, 2000);
