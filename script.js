@@ -185,33 +185,6 @@ function initGenreDisplay(selectedGenre) {
     });
 
     movieGrid.onwheel = (e) => {
-        // 🌟 폰 터치 스와이프 로직 추가
-    let touchStartX = 0;
-    
-    movieGrid.addEventListener("touchstart", (e) => {
-        touchStartX = e.changedTouches[0].screenX;
-    }, { passive: true });
-
-    movieGrid.addEventListener("touchend", (e) => {
-        let touchEndX = e.changedTouches[0].screenX;
-        let diff = touchStartX - touchEndX;
-
-        // 🚨 터치 거리가 어느 정도 될 때만 회전 (너무 예민하면 오작동 방지)
-        if (Math.abs(diff) > 50) { 
-            stopAutoPlay();
-            
-            // 휠 방향과 맞춰서 오른쪽으로 밀면 다음 영화, 왼쪽으로 밀면 이전 영화
-            currAngle += (diff > 0) ? -rotateAngle : rotateAngle;
-            track.style.transform = `rotateY(${currAngle}deg)`;
-            updateActiveCard();
-
-            // 다시 자동 재생 타이머 초기화
-            clearTimeout(window.wheelTimeout);
-            window.wheelTimeout = setTimeout(() => {
-                if (currentPlayingIndex === null) startAutoPlay();
-            }, 2000);
-        }
-    }, { passive: true });
         e.preventDefault();
         
         if (isWheeling) return; 
@@ -229,6 +202,44 @@ function initGenreDisplay(selectedGenre) {
             if (currentPlayingIndex === null) startAutoPlay();
         }, 2000); 
     };
+    // 🌟 모바일 가로 스와이프 완벽 해결 코드 (기존 onwheel 코드 닫히는 } 바로 밑에 추가)
+let startX = 0;
+let startY = 0;
+
+movieGrid.addEventListener('touchstart', (e) => {
+    startX = e.touches[0].clientX;
+    startY = e.touches[0].clientY;
+    stopAutoPlay();
+}, { passive: true });
+
+// 🚨 핵심: 가로로 밀 때는 브라우저가 화면을 맘대로 넘기지 못하게 차단
+movieGrid.addEventListener('touchmove', (e) => {
+    let dx = Math.abs(e.touches[0].clientX - startX);
+    let dy = Math.abs(e.touches[0].clientY - startY);
+    
+    // 세로 스크롤보다 가로로 미는 힘이 더 크면 브라우저 기본 동작 막기
+    if (dx > dy) { 
+        e.preventDefault(); 
+    }
+}, { passive: false }); // e.preventDefault()를 쓰려면 passive: false가 필수임
+
+movieGrid.addEventListener('touchend', (e) => {
+    let endX = e.changedTouches[0].clientX;
+    let diff = startX - endX;
+
+    // 40px 이상 확실하게 밀었을 때만 카드 회전
+    if (Math.abs(diff) > 40) {
+        currAngle += (diff > 0) ? -rotateAngle : rotateAngle;
+        track.style.transform = `rotateY(${currAngle}deg)`;
+        updateActiveCard();
+    }
+
+    // 손 떼고 2초 뒤 자동 재생 복구
+    clearTimeout(window.swipeTimeout);
+    window.swipeTimeout = setTimeout(() => {
+        if (currentPlayingIndex === null) startAutoPlay();
+    }, 2000);
+}, { passive: true });
 
     initialStartTimer = setTimeout(() => {
         startAutoPlay();

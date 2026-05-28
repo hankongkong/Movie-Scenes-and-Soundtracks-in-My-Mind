@@ -331,6 +331,4 @@ header h1 {
     /* 🚨 여기! display: none을 지우고, 폰트 크기를 살짝 줄여서 다시 보여주자 */
     .movie-desc { font-size: 0.7rem; color: #ccc; display: block; } 
 }
-
-
 }
