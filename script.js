@@ -10,9 +10,8 @@ let initialStartTimer = null;
 let isWheeling = false;
 
 function initGenreDisplay(selectedGenre) {
-    // 🚨 BUG FIX 1: 장르 변경 시 무조건 화면 맨 위로!
+    // 🚨 장르 변경 시 무조건 화면 맨 위로!
     window.scrollTo(0, 0); 
-    // 🚨 BUG FIX 2: 3D 캐러셀용 스크롤 금지 이벤트를 강제로 삭제 (전체 영화 탭 휠 먹통 해결)
     movieGrid.onwheel = null; 
 
     clearInterval(autoPlayTimer);
@@ -22,7 +21,7 @@ function initGenreDisplay(selectedGenre) {
     currentPlayingIndex = null;
     currAngle = 0;
 
-    // 🌟 L2. [CSS Grid] 전체 영화 탭을 눌렀을 때의 렌더링 로직
+    // 🌟 [CSS Grid] 전체 영화 탭을 눌렀을 때
     if (selectedGenre === "ALL") {
         movieGrid.style.backgroundImage = "none";
         movieGrid.style.display = "block"; 
@@ -32,7 +31,6 @@ function initGenreDisplay(selectedGenre) {
         const gridContainer = document.createElement("div");
         gridContainer.className = "movie-grid-view";
 
-        // 🌟 장르 코드를 예쁜 풀네임으로 바꿔주는 매핑 객체 추가!
         const genreNames = {
             "SF_TIME": "SF / TIME",
             "THRILLER": "MYSTERY / THRILLER",
@@ -43,7 +41,6 @@ function initGenreDisplay(selectedGenre) {
         movies.forEach((movie) => {
             const item = document.createElement("div");
             item.className = "grid-item";
-            // 🌟 movie.genre 대신 genreNames[movie.genre]를 사용해서 풀네임 출력
             item.innerHTML = `
                 <img src="${movie.poster}" alt="${movie.title}">
                 <h3>${movie.title}</h3>
@@ -56,10 +53,9 @@ function initGenreDisplay(selectedGenre) {
         return; 
     }
 
-    // 🌟 일반 장르 탭을 눌렀을 때 (기존 3D 로직 복구)
+    // 🌟 일반 장르 탭을 눌렀을 때 (3D 로직)
     movieGrid.style.display = "flex";
     movieGrid.style.paddingBottom = "0";
-    // 🚨 BUG FIX 3: 높이를 3D 무대 원래 높이(CSS)로 복구 (안 하면 높이 꼬여서 포스터 잘림!)
     movieGrid.style.height = ""; 
 
     const bgFiles = {
@@ -76,7 +72,7 @@ function initGenreDisplay(selectedGenre) {
     
     if (totalMovies === 0) return;
 
-    // 🌟 L3. [반응형] 자바스크립트에서도 화면 크기를 감지해서 3D 원통 반경(tz) 조절
+    // 🌟 [반응형] 3D 원통 반경 조절
     const screenWidth = window.innerWidth;
     let cardWidth = 380; 
     if (screenWidth <= 480) cardWidth = 200;
@@ -130,11 +126,8 @@ function initGenreDisplay(selectedGenre) {
         const card = document.createElement("article");
         card.className = "movie-card";
         card.style.transform = `rotateY(${index * rotateAngle}deg) translateZ(${tz}px)`;
-        
-        // 🚨 [접근성 A3] 카드가 탭(Tab) 키로 선택될 수 있도록 속성 부여
         card.tabIndex = 0; 
         
-        // 이미지에 있던 tabindex는 지웠어! (카드가 통째로 선택되는 게 맞음)
         card.innerHTML = `
             <img src="${movie.poster}" alt="${movie.title} 영화 포스터" id="img-${index}">
             <div class="movie-info">
@@ -147,7 +140,6 @@ function initGenreDisplay(selectedGenre) {
 
         if (index === 0) card.classList.add('active-center');
 
-        // 기존 클릭 이벤트
         card.addEventListener("click", () => {
             const targetIndex = Math.round((-currAngle / rotateAngle) % totalMovies + totalMovies) % totalMovies;
             if (index !== targetIndex) return;
@@ -175,15 +167,15 @@ function initGenreDisplay(selectedGenre) {
             }
         });
 
-        // 🚨 [접근성 A3] 키보드 Enter 키를 누르면 클릭한 것과 똑같이 동작하게 만듦!
         card.addEventListener("keydown", (e) => {
             if (e.key === "Enter") {
                 e.preventDefault();
-                card.click(); // 위에 있는 클릭 이벤트를 강제로 실행시킴
+                card.click();
             }
         });
     });
 
+    // 데스크톱 휠 이벤트
     movieGrid.onwheel = (e) => {
         e.preventDefault();
         
@@ -202,50 +194,43 @@ function initGenreDisplay(selectedGenre) {
             if (currentPlayingIndex === null) startAutoPlay();
         }, 2000); 
     };
-    // 🌟 모바일 가로 스와이프 완벽 해결 코드 (기존 onwheel 코드 닫히는 } 바로 밑에 추가)
-let startX = 0;
-let startY = 0;
 
-// 🚨 중복 방지 1: 유튜브 갔다 올 때 화면 크기 변하면서 터치 이벤트 겹치는 현상 싹 날리기!
-if (window.touchController) window.touchController.abort();
-window.touchController = new AbortController();
-const sig = window.touchController.signal;
+    // 🌟 모바일 가로 스와이프 완벽 해결 (유튜브 갔다 와도 안 꼬임!)
+    let startX = 0;
+    let startY = 0;
 
-let startX = 0;
-let startY = 0;
+    track.addEventListener('touchstart', (e) => {
+        startX = e.touches[0].clientX;
+        startY = e.touches[0].clientY;
+        stopAutoPlay();
+    }, { passive: true });
 
-movieGrid.addEventListener('touchstart', (e) => {
-    startX = e.touches[0].clientX;
-    startY = e.touches[0].clientY;
-    stopAutoPlay();
-}, { passive: true, signal: sig }); // 👈 signal이 붙으면서 이전 이벤트들을 알아서 청소해 줌
+    track.addEventListener('touchmove', (e) => {
+        let dx = Math.abs(e.touches[0].clientX - startX);
+        let dy = Math.abs(e.touches[0].clientY - startY);
+        if (dx > dy) { e.preventDefault(); }
+    }, { passive: false });
 
-movieGrid.addEventListener('touchmove', (e) => {
-    let dx = Math.abs(e.touches[0].clientX - startX);
-    let dy = Math.abs(e.touches[0].clientY - startY);
-    if (dx > dy) { e.preventDefault(); }
-}, { passive: false, signal: sig });
+    track.addEventListener('touchend', (e) => {
+        if (window.isSwiping) return;
+        window.isSwiping = true;
+        setTimeout(() => { window.isSwiping = false; }, 500);
 
-movieGrid.addEventListener('touchend', (e) => {
-    // 중복 방지 2: 짧은 시간에 여러 번 밀리는 거 차단
-    if (window.isSwiping) return;
-    window.isSwiping = true;
-    setTimeout(() => { window.isSwiping = false; }, 500);
+        let endX = e.changedTouches[0].clientX;
+        let diff = startX - endX;
 
-    let endX = e.changedTouches[0].clientX;
-    let diff = startX - endX;
+        if (Math.abs(diff) > 40) {
+            currAngle += (diff > 0) ? -rotateAngle : rotateAngle;
+            track.style.transform = `rotateY(${currAngle}deg)`;
+            updateActiveCard();
+        }
 
-    if (Math.abs(diff) > 40) {
-        currAngle += (diff > 0) ? -rotateAngle : rotateAngle;
-        track.style.transform = `rotateY(${currAngle}deg)`;
-        updateActiveCard();
-    }
+        clearTimeout(window.swipeTimeout);
+        window.swipeTimeout = setTimeout(() => {
+            if (currentPlayingIndex === null) startAutoPlay();
+        }, 2000);
+    }, { passive: true });
 
-    clearTimeout(window.swipeTimeout);
-    window.swipeTimeout = setTimeout(() => {
-        if (currentPlayingIndex === null) startAutoPlay();
-    }, 2000);
-}, { passive: true, signal: sig });
     initialStartTimer = setTimeout(() => {
         startAutoPlay();
     }, 2000);
@@ -262,7 +247,6 @@ function createGenreButtons() {
     }
     btnContainer.innerHTML = "";
     
-    // 🌟 L2. "전체 영화" 탭 버튼 추가
     const genreMenu = [
         { name: "SF / TIME", tag: "SF_TIME" },
         { name: "MYSTERY / THRILLER", tag: "THRILLER" },
@@ -285,7 +269,7 @@ function createGenreButtons() {
     });
 }
 
-// 🌟 4. [fetch API] 외부 데이터 가져오기 로직 (D1 ~ D5 충족)
+// 🌟 4. [fetch API] 외부 데이터 가져오기 로직
 async function fetchMovieData() {
     try {
         const response = await fetch('./movies.json');
@@ -319,35 +303,28 @@ window.addEventListener("resize", () => {
     }
 });
 
-window.addEventListener("DOMContentLoaded", () => {
-    fetchMovieData();
-    // 🌟 U7. [Form] 폼 제출 유효성 검사 (말풍선 경고창 커스텀)
+// DOMContentLoaded (하단에 불필요하게 중복되어 있던 것도 하나로 통합 정리 완료)
 document.addEventListener("DOMContentLoaded", () => {
+    fetchMovieData();
+    
     const reviewForm = document.getElementById("review-form");
     const reviewInput = document.getElementById("user-review");
 
     if (reviewInput && reviewForm) {
-        
-        // 🚨 폼 제출을 시도할 때, 입력값이 비어있으면 말풍선 내용 변경
         reviewInput.addEventListener("invalid", function (e) {
             if (this.value.trim() === "") {
                 this.setCustomValidity("감상비는 감상평 한 줄 이상😆");
             }
         });
 
-        // 🚨 사용자가 글씨를 한 글자라도 쓰기 시작하면, 에러(말풍선) 강제 해제
         reviewInput.addEventListener("input", function () {
             this.setCustomValidity("");
         });
 
-        // 정상적으로 글을 쓰고 제출 버튼을 눌렀을 때
         reviewForm.addEventListener("submit", (e) => {
             e.preventDefault(); 
-            
-            // 제출 완료 시 가벼운 인사말 띄우고 폼 비워주기
             alert("소중한 감상비(감상평) 감사합니다! 🎬");
             reviewInput.value = ""; 
         });
     }
-});
 });
